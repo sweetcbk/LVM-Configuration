@@ -1,0 +1,34 @@
+=======================================================================================
+        			  LVM Configure
+=======================================================================================
+ 		ADD Two hardisk in Centos7 System
+=======================================================================================
+
+
+[root@localhost ~]# vgs
+[root@localhost ~]# lvs
+[root@localhost ~]# lsblk
+[root@localhost ~]# yum install lvm2
+[root@localhost ~]# pvcreate /dev/sdb /dev/sdc
+[root@localhost ~]# vgcreate HPCSA /dev/sdb /dev/sdc
+[root@localhost ~]# lvcreate -n hpcsa_lab --size 1G HPCSA
+[root@localhost ~]# vgs
+[root@localhost ~]# fdisk /dev/mapper/HPCSA-hpcsa_lab
+                    
+                     Enter:- n then enter-enter 
+                     Command (m for help): W (Enter)
+                     --------------------------------
+
+[root@localhost ~]# mkfs.ext4 /dev/mapper/HPCSA-hpcsa_lab
+[root@localhost ~]# mkdir lab
+[root@localhost ~]# mount /dev/mapper/HPCSA-hpcsa_lab lab
+[root@localhost ~]# lvextend -L +2G /dev/mapper/HPCSA-hpcsa_lab
+[root@localhost ~]# resize2fs /dev/mapper/HPCSA-hpcsa_lab
+[root@localhost ~]# df -h
+[root@localhost ~]# lvcreate -L 1GB -s -n hpcsa_lab_snap /dev/mapper/HPCSA-hpcsa_lab
+
+-------------------------------------------------------------------------------------
+
+
+
+
